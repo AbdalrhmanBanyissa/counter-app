@@ -12,6 +12,7 @@ class App extends Component {
   };
   render() {
     const { counters } = this.state;
+    const totalCounters = counters.filter((c) => c.value > 0).length;
     if (counters.length === 0)
       return (
         <nav className="navbar navbar-expand-md navbar-dark bg-dark mb-4">
@@ -22,12 +23,13 @@ class App extends Component {
       );
     return (
       <div>
-        <NavBar counters={counters} />
+        <NavBar counters={counters} totalCounters={totalCounters} />
         <Counters
           counters={counters}
           onDeleteCounter={this.handleDeleteCounter}
           onReset={this.handleReset}
           onIncrement={this.handleIncrement}
+          onDecrement={this.handleDecrement}
         />
       </div>
     );
@@ -48,6 +50,13 @@ class App extends Component {
     const index = counters.indexOf(counter);
     // counters[index] = { ...counter };
     counters[index].value++;
+    this.setState({ counters });
+  };
+  handleDecrement = (counter) => {
+    const counters = [...this.state.counters];
+    const index = counters.indexOf(counter);
+    // counters[index] = { ...counter };
+    counters[index].value--;
     this.setState({ counters });
   };
 }
